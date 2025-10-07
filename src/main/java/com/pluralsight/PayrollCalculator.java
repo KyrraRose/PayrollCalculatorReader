@@ -7,19 +7,24 @@ public class PayrollCalculator {
         try{
             FileReader fileReader = new FileReader("src/main/resources/employees.csv");
             BufferedReader buffReader = new BufferedReader(fileReader);
+            FileWriter fileWriter = new FileWriter("src/main/resources/payrolltest.csv");
+            BufferedWriter buffWriter = new BufferedWriter(fileWriter);
+            buffWriter.write("id|name|gross pay");
 
 
             String data;
             while((data = buffReader.readLine())!=null){
-                String[] employeeData = data.split("|");
-                for(int i = 1;i < employeeData.length; i++){
+                String[] employeeData = data.split("\\|");
+                if(!employeeData[0].equals("id")){
                     int employeeID = Integer.parseInt(employeeData[0]);
+                    String name = employeeData[1];
+                    double payRate = Double.parseDouble(employeeData[3]);
+                    double hoursWorked = Double.parseDouble(employeeData[2]);
 
-                    Employee employee = new Employee(,employeeData[1],Double.parseDouble(employeeData[2]),Double.parseDouble(employeeData[3]));
-                    double payRate = employee.getPayRate();
-                    double hoursWorked = employee.getHoursWorked();
+                    Employee employee = new Employee(employeeID,name,hoursWorked,payRate);
 
-                    System.out.printf("%s is paid at a rate of $%.2d an hour.\nGross Pay: $%.2d",employee.getName(),employee.getPayRate(),employee.getGrossPay(payRate,hoursWorked));
+
+                    System.out.printf("ID: %d\nName: %s\nGross Pay: $%.2f\n---\n",employee.getEmployeeID(),employee.getName(),employee.getGrossPay());
                 }
 
 
